@@ -12,6 +12,10 @@
 		1FEFD1D11F5C823C002C9115 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FEFD1CF1F5C823C002C9115 /* Main.storyboard */; };
 		1FEFD1D31F5C823C002C9115 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FEFD1D21F5C823C002C9115 /* Assets.xcassets */; };
 		1FEFD1D61F5C823C002C9115 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FEFD1D41F5C823C002C9115 /* LaunchScreen.storyboard */; };
+		1FEFD1E01F5C8330002C9115 /* AccessDenied.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1FEFD1DE1F5C8330002C9115 /* AccessDenied.wav */; };
+		1FEFD1E11F5C8330002C9115 /* AccessGranted.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1FEFD1DF1F5C8330002C9115 /* AccessGranted.wav */; };
+		1FEFD1E31F5C83C5002C9115 /* Passes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEFD1E21F5C83C5002C9115 /* Passes.swift */; };
+		1FEFD1E51F5CC5BC002C9115 /* People.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEFD1E41F5CC5BC002C9115 /* People.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,10 @@
 		1FEFD1D21F5C823C002C9115 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FEFD1D51F5C823C002C9115 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FEFD1D71F5C823C002C9115 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FEFD1DE1F5C8330002C9115 /* AccessDenied.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = AccessDenied.wav; sourceTree = "<group>"; };
+		1FEFD1DF1F5C8330002C9115 /* AccessGranted.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = AccessGranted.wav; sourceTree = "<group>"; };
+		1FEFD1E21F5C83C5002C9115 /* Passes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Passes.swift; sourceTree = "<group>"; };
+		1FEFD1E41F5CC5BC002C9115 /* People.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = People.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,12 +64,24 @@
 			children = (
 				1FEFD1CB1F5C823C002C9115 /* AppDelegate.swift */,
 				1FEFD1CD1F5C823C002C9115 /* ViewController.swift */,
+				1FEFD1E41F5CC5BC002C9115 /* People.swift */,
+				1FEFD1E21F5C83C5002C9115 /* Passes.swift */,
 				1FEFD1CF1F5C823C002C9115 /* Main.storyboard */,
 				1FEFD1D21F5C823C002C9115 /* Assets.xcassets */,
+				1FEFD1DD1F5C830C002C9115 /* Audio */,
 				1FEFD1D41F5C823C002C9115 /* LaunchScreen.storyboard */,
 				1FEFD1D71F5C823C002C9115 /* Info.plist */,
 			);
 			path = AmusementParkPassGenerator;
+			sourceTree = "<group>";
+		};
+		1FEFD1DD1F5C830C002C9115 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				1FEFD1DE1F5C8330002C9115 /* AccessDenied.wav */,
+				1FEFD1DF1F5C8330002C9115 /* AccessGranted.wav */,
+			);
+			name = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,8 +145,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FEFD1D61F5C823C002C9115 /* LaunchScreen.storyboard in Resources */,
+				1FEFD1E11F5C8330002C9115 /* AccessGranted.wav in Resources */,
 				1FEFD1D31F5C823C002C9115 /* Assets.xcassets in Resources */,
 				1FEFD1D11F5C823C002C9115 /* Main.storyboard in Resources */,
+				1FEFD1E01F5C8330002C9115 /* AccessDenied.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +159,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FEFD1E51F5CC5BC002C9115 /* People.swift in Sources */,
 				1FEFD1CE1F5C823C002C9115 /* ViewController.swift in Sources */,
+				1FEFD1E31F5C83C5002C9115 /* Passes.swift in Sources */,
 				1FEFD1CC1F5C823C002C9115 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
