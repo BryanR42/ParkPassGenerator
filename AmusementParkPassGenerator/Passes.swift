@@ -63,6 +63,23 @@ class PassCard {
     }
 }
 
+func IssuePass(type: PassType, to passHolder: PassHolder?) throws -> PassCard {
+    guard let passAccess = permissions.list[type] else { throw PassError.noPermissions }
+    let passCard = PassCard(accesses: passAccess, passHolder: passHolder)
+    switch type {
+    case .freeChildGuest: if passHolder?.age != nil && passHolder!.age! < 5 {
+        return passCard
+    } else {
+        throw PassError.childOverFive
+        }
+    case .hourlyFoodService, .hourlyMaintenance, .hourlyRideService, .manager: if passHolder?.firstName != nil && passHolder?.lastName != nil && passHolder?.address != nil {
+        return passCard
+    } else {
+        throw PassError.insufficientPersonalInfo
+        }
+    default: return passCard
+    }
+}
 
 
 
