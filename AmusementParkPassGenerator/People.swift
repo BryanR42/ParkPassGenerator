@@ -57,7 +57,44 @@ class PassHolder: Person {
         self.init(firstName: firstName, lastName: lastName, dateOfBirth: dateOfBirth)
         self.address = address
     }
+    
+    func IssuePass(type: PassType) throws -> PassCard {
+        do {
+            guard let passAccess = permissions.list[type] else { throw PassError.noPermissions }
+            let isEligible = try checkEligibilityFor(type: type, passHolder: self)
+            if isEligible {
+                return PassCard(accesses: passAccess, passHolder: self)
+            }
+        } catch PassError.childOverFive(let age) {
+            print("Child is \(age) years old. Age must be under five for this pass")
+        } catch PassError.insufficientPersonalInfo(let missingError){
+            print(missingError)
+        }
+        throw PassError.issuePassFailed
+    }
 }
+func checkEligibilityFor(type: PassType, passHolder: PassHolder?) throws -> Bool {
+    switch type {
+    case .freeChildGuest:
+        if let age = passHolder?.age {
+            if age < 5 {
+                return true
+            } else {
+                throw PassError.childOverFive(age)
+            }
+        } else {
+            throw PassError.insufficientPersonalInfo("Missing date of birth")
+        }
+    case .hourlyFoodService, .hourlyRideService, .hourlyMaintenance, .manager:
+        if passHolder == nil || passHolder?.firstName == nil || passHolder?.lastName == nil || passHolder?.address == nil {
+            throw PassError.insufficientPersonalInfo("Missing personal information")
+        } else {
+            return true
+        }
+    case .classicGuest, .vipGuest: return true
+    }
+}
+
 //  MARK: - Helper Functions
 
 

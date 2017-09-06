@@ -13,19 +13,37 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Testing
-        let person = PassHolder(firstName: "Joe", lastName: "Smith", dateOfBirth: "12/22/1974")
+        // test 1
+        /*
+        let myAddress = Address(streetAddress: "123 Street", city: "City", state: "CT", zipCode: "12345")
+        let person = PassHolder(firstName: "Joe", lastName: "Smith", address: myAddress, dateOfBirth: "12/22/1974")
+        let testPass: PassType = .manager
+        */
+        
+        // test 2
+        /*
+        let person = PassHolder(dateOfBirth: "12/22/2016")
+        let testPass: PassType = .freeChildGuest
+        */
+        // test 3
+        let person = PassHolder(firstName: "Jimmy", lastName: "Da Fish", dateOfBirth: "1/2/1903")
+        let testPass = PassType.manager
+        
         do {
-            try person.passCard = IssuePass(type: .freeChildGuest, to: person)
-            print(person.passCard!.passHolder!.age!)
-        } catch PassError.childOverFive {
-            print("Child not elligible, \(person.age!) is too old")
-        
-        
+            person.passCard = try person.IssuePass(type: testPass)
+            
         } catch let error {
-            fatalError("\(error)")
+            print("\(error)")
         }
         // Do any additional setup after loading the view, typically from a nib.
+        if let passCard = person.passCard {
+            for eachAccess in passCard.accesses {
+                print(eachAccess.rawValue)
+            }
+        }
+        
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

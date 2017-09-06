@@ -18,7 +18,7 @@ enum PassType {
     case hourlyMaintenance
     case manager
 }
-enum accessType {
+enum AccessType: String {
     case amusementAreas
     case allRides
     case allRideSkipLines
@@ -26,34 +26,35 @@ enum accessType {
     case rideControlAreas
     case maintenanceAreas
     case officeAreas
-    case foodDiscount(Double)
-    case merchandiseDiscount(Double)
+    case foodDiscount
+    case merchandiseDiscount
 }
 enum PassError: Error {
-    case childOverFive
-    case insufficientPersonalInfo
+    case childOverFive(Int)
+    case insufficientPersonalInfo(String)
     case noPermissions
-    case passNotFound
+    case passHolderNotFound
+    case issuePassFailed
 }
 
 struct PassCardPermissions {
-    let list: [PassType: [accessType]] = [
+    let list: [PassType: [AccessType]] = [
         .classicGuest: [.amusementAreas, .allRides],
-        .vipGuest: [.amusementAreas, .allRides, .allRideSkipLines, .foodDiscount(0.10), .merchandiseDiscount(0.20)],
+        .vipGuest: [.amusementAreas, .allRides, .allRideSkipLines, .foodDiscount, .merchandiseDiscount],
         .freeChildGuest: [.amusementAreas, .allRides],
-        .hourlyFoodService: [.amusementAreas, .allRides, .kitchenAreas, .foodDiscount(0.15), .merchandiseDiscount(0.25)],
-        .hourlyRideService: [.amusementAreas, .allRides, .rideControlAreas, .foodDiscount(0.15), .merchandiseDiscount(0.25)],
-        .hourlyMaintenance: [.amusementAreas, .allRides, .kitchenAreas, .rideControlAreas, .maintenanceAreas, .foodDiscount(0.15), .merchandiseDiscount(0.25)],
-        .manager: [.amusementAreas, .allRides, .kitchenAreas, .rideControlAreas, .maintenanceAreas, .officeAreas, .foodDiscount(0.25), .merchandiseDiscount(0.25)]]
+        .hourlyFoodService: [.amusementAreas, .allRides, .kitchenAreas, .foodDiscount, .merchandiseDiscount],
+        .hourlyRideService: [.amusementAreas, .allRides, .rideControlAreas, .foodDiscount, .merchandiseDiscount],
+        .hourlyMaintenance: [.amusementAreas, .allRides, .kitchenAreas, .rideControlAreas, .maintenanceAreas, .foodDiscount, .merchandiseDiscount],
+        .manager: [.amusementAreas, .allRides, .kitchenAreas, .rideControlAreas, .maintenanceAreas, .officeAreas, .foodDiscount, .merchandiseDiscount]]
 }
 
 let permissions = PassCardPermissions()
 
 class PassCard {
-    let accesses: [accessType]
+    let accesses: [AccessType]
     weak var passHolder: PassHolder?
 
-    init(accesses: [accessType], passHolder: PassHolder?) {
+    init(accesses: [AccessType], passHolder: PassHolder?) {
         self.accesses = accesses
         if let passHolder = passHolder {
             self.passHolder = passHolder
@@ -61,24 +62,7 @@ class PassCard {
             self.passHolder = nil
         }
     }
-}
-
-func IssuePass(type: PassType, to passHolder: PassHolder?) throws -> PassCard {
-    guard let passAccess = permissions.list[type] else { throw PassError.noPermissions }
-    let passCard = PassCard(accesses: passAccess, passHolder: passHolder)
-    switch type {
-    case .freeChildGuest: if passHolder?.age != nil && passHolder!.age! < 5 {
-        return passCard
-    } else {
-        throw PassError.childOverFive
-        }
-    case .hourlyFoodService, .hourlyMaintenance, .hourlyRideService, .manager: if passHolder?.firstName != nil && passHolder?.lastName != nil && passHolder?.address != nil {
-        return passCard
-    } else {
-        throw PassError.insufficientPersonalInfo
-        }
-    default: return passCard
-    }
+    
 }
 
 
