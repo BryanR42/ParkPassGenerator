@@ -14,7 +14,7 @@ import Foundation
 // sender will be held by a variable for the purpose of this test
 
 enum AccessGroups {
-    case guestAreas
+    case rideAreas
     case employeeAreas
     case discounts
 }
@@ -24,46 +24,13 @@ enum AccessGroups {
 
 extension AccessType: Equatable {
     static func ==(lhs: AccessType, rhs: AccessType) -> Bool {
-        return lhs == rhs
+        return lhs.rawValue == rhs.rawValue
     }
 }
 
 typealias AreaGroup = [AccessType]
-let guestAreas: AreaGroup = [.allRides, .allRideSkipLines, .amusementAreas]
+let rideAreas: AreaGroup = [.allRides, .allRideSkipLines, .amusementAreas]
 let employeeAreas: AreaGroup = [.kitchenAreas, .officeAreas, .rideControlAreas, .maintenanceAreas]
-
-func swipeTest(for group: AccessGroups, with pass: PassCard)  {
-    var allowedAreas: AreaGroup = []
-    var deniedAreas: AreaGroup = []
-    
-    switch group {
-    case .guestAreas:
-        for area in guestAreas {
-            if testAccess(to: area, with: pass) {
-                allowedAreas.append(area)
-            } else {
-                deniedAreas.append(area)
-            }
-        }
-    case .employeeAreas:
-        for area in employeeAreas {
-            if testAccess(to: area, with: pass) {
-                allowedAreas.append(area)
-            } else {
-                deniedAreas.append(area)
-            }
-        }
-        for area in guestAreas {
-            if testAccess(to: area, with: pass) {
-                allowedAreas.append(area)
-            } else {
-                deniedAreas.append(area)
-            }
-        }
-    case .discounts: break        // uggggh!!!!!
-    }
-        
-    }
 
 
 

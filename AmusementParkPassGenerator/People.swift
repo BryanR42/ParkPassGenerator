@@ -50,7 +50,6 @@ class PassHolder: Person {
         self.init(dateOfBirth: dateOfBirth)
         self.firstName = firstName
         self.lastName = lastName
-        
     }
     
     convenience init(firstName: String, lastName: String, address: Address, dateOfBirth: String?) {
@@ -60,10 +59,14 @@ class PassHolder: Person {
     
     func IssuePass(type: PassType) throws -> PassCard {
         do {
-            guard let passAccess = permissions.list[type] else { throw PassError.noPermissions }
             let isEligible = try checkEligibilityFor(type: type, passHolder: self)
             if isEligible {
-                return PassCard(accesses: passAccess, passHolder: self)
+                let passCard = PassCard(type: type, passHolder: self)
+                if passCard.accesses != [] {
+                    return passCard
+                } else {
+                    throw PassError.noPermissions
+                }
             }
         } catch PassError.childOverFive(let age) {
             print("Child is \(age) years old. Age must be under five for this pass")
@@ -73,6 +76,9 @@ class PassHolder: Person {
         throw PassError.issuePassFailed
     }
 }
+
+//  MARK: - Helper Functions
+
 func checkEligibilityFor(type: PassType, passHolder: PassHolder?) throws -> Bool {
     switch type {
     case .freeChildGuest:
@@ -94,8 +100,6 @@ func checkEligibilityFor(type: PassType, passHolder: PassHolder?) throws -> Bool
     case .classicGuest, .vipGuest: return true
     }
 }
-
-//  MARK: - Helper Functions
 
 
     // not sure about this but I'm using the mockup as a guide and hoping there is a way to restrict the date input format when we get to the user interface?

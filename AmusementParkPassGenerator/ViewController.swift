@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Testing
+        let swipeTestArea: AccessGroups = .rideAreas
         // test 1
         /*
         let myAddress = Address(streetAddress: "123 Street", city: "City", state: "CT", zipCode: "12345")
@@ -27,7 +28,7 @@ class ViewController: UIViewController {
         */
         // test 3
         let person = PassHolder(firstName: "Jimmy", lastName: "Da Fish", dateOfBirth: "1/2/1903")
-        let testPass = PassType.manager
+        let testPass = PassType.vipGuest
         
         do {
             person.passCard = try person.IssuePass(type: testPass)
@@ -37,10 +38,13 @@ class ViewController: UIViewController {
         }
         // Do any additional setup after loading the view, typically from a nib.
         if let passCard = person.passCard {
-            for eachAccess in passCard.accesses {
-                print(eachAccess.rawValue)
-            }
+            passCard.swipeTest(for: .employeeAreas)
+            passCard.swipeTest(for: .discounts)
+            //for eachAccess in passCard.accesses {
+            //    print(eachAccess.rawValue)
+            //}
         }
+        
         
     }
     
